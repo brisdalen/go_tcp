@@ -13,12 +13,15 @@ func main() {
 	if err != nil {
 		fmt.Println("Error occured while connecting")
 	}
-	fmt.Println("Type your message:")
+	
+	for {
+		fmt.Println("Type your message:")
 
-	reader := bufio.NewReader(os.Stdin)
-	text, _ := reader.ReadString('\n')
-	fmt.Fprintf(conn, text + "\n")
+		reader := bufio.NewReader(os.Stdin)
+		text, _ := reader.ReadString('\n')
+		fmt.Fprintf(conn, text + "\n")
 
-	status, _ := bufio.NewReader(conn).ReadString('\n')
-	fmt.Println(status)
+		status, _ := bufio.NewReader(conn).ReadString('\n')
+		fmt.Println(status)
+	}
 }
