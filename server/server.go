@@ -24,11 +24,14 @@ func main() {
 }
 
 func handleConnection(client net.Conn) {
+	
+	for {
 
-	message, _ := bufio.NewReader(client).ReadString('\n')
+		message, _ := bufio.NewReader(client).ReadString('\n')
 
-	echo := strings.ToUpper(message)
+		echo := strings.ToUpper(message)
 
-	client.Write([]byte(echo + "\n"))
+		client.Write([]byte(echo + "\n"))
+	}
 }
 
