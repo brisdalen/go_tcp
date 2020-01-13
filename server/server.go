@@ -31,13 +31,13 @@ func handleConnection(client net.Conn) {
 
 		message, err := bufio.NewReader(client).ReadString('\n')
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println("Connection closed by user.")
+		} else {
+			fmt.Println("From client: ", message)
+			echo := strings.ToUpper(message)
+
+			client.Write([]byte(echo + "\n"))
 		}
-
-		fmt.Println("From client: ", message)
-		echo := strings.ToUpper(message)
-
-		client.Write([]byte(echo + "\n"))
 	}
 }
 
