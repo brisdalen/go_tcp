@@ -5,6 +5,7 @@ import(
 	"bufio"
 	"net"
 	"strings"
+	"log"
 )
 
 func main() {
@@ -19,16 +20,21 @@ func main() {
 		if err != nil {
 			fmt.Println("Error occured")
 		}
+		fmt.Println("new client connection")
 		go handleConnection(conn)
 	}
 }
 
 func handleConnection(client net.Conn) {
-	
+
 	for {
 
-		message, _ := bufio.NewReader(client).ReadString('\n')
+		message, err := bufio.NewReader(client).ReadString('\n')
+		if err != nil {
+			log.Fatal(err)
+		}
 
+		fmt.Println("From client: ", message)
 		echo := strings.ToUpper(message)
 
 		client.Write([]byte(echo + "\n"))
