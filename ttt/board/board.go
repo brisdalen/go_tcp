@@ -9,6 +9,9 @@ import (
 	"strings"
 )
 
+var moves int = 0
+var winner int
+
 func main() {
 	board1D := make([]int, 9)
 	for i := 0; i < len(board1D); i++ {
@@ -30,6 +33,7 @@ func main() {
 			break
 		}
 
+		moves++
 		position := handleInput(input)
 		if turnP1 {
 			board1D[position] = 1
@@ -40,11 +44,60 @@ func main() {
 		}
 
 		displayBoard(board1D)
+
+		if checkGameStatus(board1D) {
+			printWinner(winner)
+			break
+		}
 	}
 }
 
+func checkGameStatus(board []int) bool {
+	// You can't win before the 5th move
+	if moves > 4 {
+		// rows
+		if abs(board[0]+board[1]+board[2]) == 3 ||
+			abs(board[3]+board[4]+board[5]) == 3 ||
+			abs(board[6]+board[7]+board[8]) == 3 {
+			winner = board[0]
+			return true
+		}
+		//columns
+		if abs(board[0]+board[3]+board[6]) == 3 ||
+			abs(board[1]+board[4]+board[7]) == 3 ||
+			abs(board[2]+board[5]+board[8]) == 3 {
+			winner = board[0]
+			return true
+		}
+		// diagonals
+		if abs(board[0]+board[4]+board[8]) == 3 ||
+			abs(board[2]+board[4]+board[6]) == 3 {
+			winner = board[4]
+			return true
+		}
+	}
+
+	return false
+}
+
+func printWinner(winnerID int) {
+	var winner string
+	if winnerID == 1 {
+		winner = "1"
+	} else {
+		winner = "2"
+	}
+	fmt.Println("The winner is Player", winner, "\b!")
+}
+
+func abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
+}
+
 func handleInput(input string) int {
-	// i.e. "1,3"
 	parts := strings.Split(input, ",")
 
 	s := parts[:]
@@ -86,8 +139,7 @@ func displayBoard(board []int) {
 			}
 			fmt.Print(" ")
 		}
-		fmt.Print("|")
-		fmt.Print("\n")
+		fmt.Print("|\n")
 	}
 	fmt.Print("\n")
 }
