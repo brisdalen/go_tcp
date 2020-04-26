@@ -9,6 +9,7 @@ import(
 
 func main() {
 	fmt.Println("Client made. \n Attempting to connect..")
+	// Connect to server IP
 	conn, err := net.Dial("tcp", "142.93.135.21:1234")
 	if err != nil {
 		fmt.Println("Error occured while connecting")
